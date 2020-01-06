@@ -3,6 +3,8 @@ package com.singh.springsecurity.demo.config;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 public class DemoSpringMvcDispatcherServletInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
+	
+	// replaces web.xml
 
 	@Override
 	protected Class<?>[] getRootConfigClasses() {
