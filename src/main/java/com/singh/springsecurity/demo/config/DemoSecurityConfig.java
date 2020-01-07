@@ -17,9 +17,11 @@ public class DemoSecurityConfig extends WebSecurityConfigurerAdapter {
         // add our users in memory authentication
 
         UserBuilder users = User.withDefaultPasswordEncoder();
-        auth.inMemoryAuthentication().withUser(users.username("john").password("test123").roles("EMPLOYEE"))
-                .withUser(users.username("mary").password("test123").roles("MANAGER"))
-                .withUser(users.username("susan").password("test123").roles("ADMIN"));
+        auth.inMemoryAuthentication()
+        		.withUser(users.username("john").password("test123").roles("EMPLOYEE"))
+                .withUser(users.username("mary").password("test123").roles("EMPLOYEE","MANAGER"))
+                .withUser(users.username("susan").password("test123").roles("EMPLOYEE", "ADMIN"))
+                .withUser(users.username("karen").password("test123").roles("EMPLOYEE", "MANAGER", "ADMIN"));
     }
     
     // Custom Login page ~
@@ -29,11 +31,22 @@ public class DemoSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-        	.anyRequest().authenticated()
+            .antMatchers("/")
+            	.permitAll()  // allow public access to home page
+            .antMatchers("/employees").hasRole("EMPLOYEE")
+            .antMatchers("/leaders/**").hasRole("MANAGER")
+            .antMatchers("/systems/**").hasRole("ADMIN")
+            	.and()
+            .formLogin()
+            	.loginPage("/showMyLoginPage")
+            	.loginProcessingUrl("/authenticateTheUser")
+            		.permitAll()
+            .and()
+            	.logout()
+            	.logoutSuccessUrl("/")  // after logout then redirect to landing page (root)
+            		.permitAll()
         	.and()
-        	.formLogin()
-        		.loginPage("/showMyLoginPage")
-                .loginProcessingUrl("/authenticateTheUser")
-                .permitAll();
-    } 
+        	.exceptionHandling()
+        		.accessDeniedPage("/access-denied");
+    }
 }
