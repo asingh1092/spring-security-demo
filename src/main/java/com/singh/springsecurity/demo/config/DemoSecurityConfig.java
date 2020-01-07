@@ -21,13 +21,19 @@ public class DemoSecurityConfig extends WebSecurityConfigurerAdapter {
                 .withUser(users.username("mary").password("test123").roles("MANAGER"))
                 .withUser(users.username("susan").password("test123").roles("ADMIN"));
     }
-
-    // need to create /showMyLoginPage
-    // the mapping /authenticateTheUser comes for free from Spring 
+    
+    // Custom Login page ~
+    // need to create /showMyLoginPage (plain-login.jsp) and controller (LoginController)
+    // the mapping /authenticateTheUser comes for free from Spring - it checks the authentication 
     
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests().anyRequest().authenticated().and().formLogin().loginPage("/showMyLoginPage")
-                .loginProcessingUrl("/authenticateTheUser").permitAll();
+        http.authorizeRequests()
+        	.anyRequest().authenticated()
+        	.and()
+        	.formLogin()
+        		.loginPage("/showMyLoginPage")
+                .loginProcessingUrl("/authenticateTheUser")
+                .permitAll();
     } 
 }
