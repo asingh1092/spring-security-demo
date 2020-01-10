@@ -47,7 +47,7 @@
 			<artifactId>spring-security-config</artifactId>
 			<version>${springsecurity.version}</version>
 		</dependency>
-		
+
 		<!-- Spring Security Taglibs support -->
 		<dependency>
 			<groupId>org.springframework.security</groupId>
@@ -55,6 +55,18 @@
 			<version>${springsecurity.version}</version>
 		</dependency>
 
+		<!-- Add MySQL and C3PO support -->
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>8.0.18</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.mchange</groupId>
+			<artifactId>c3p0</artifactId>
+			<version>0.9.5.2</version>
+		</dependency>
 
 		<!-- Servlet, JSP, and JSTL support -->
 		<dependency>
